@@ -127,7 +127,8 @@ public class RegisterPanel {
         if (userCodeMessageObject.getCode() == 400) {
             JOptionPane.showMessageDialog(null, userCodeMessageObject.getMessage());
         } else {
-            goToMainFrame();
+            //goToMainFrame();
+            clear();
         }
     }
 }

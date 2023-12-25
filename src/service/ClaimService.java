@@ -63,6 +63,9 @@ public class ClaimService {
             claim.setUser(userService.getByName(userName).getT());
             claim.setUserId(claim.getUser().getId());
             claimCodeMessageObject = getById(claim.getId());
+            if(claim.getStatus().equals("Confirmed") || claim.getStatus().equals("Rejected")){
+                claimCodeMessageObject = new CodeMessageObject<>(400, "Confirmed and Rejected Claim cannot be updated!", null);
+            }
             if (claimCodeMessageObject.getCode() == 200) {
                 Claim updatedClaim = claimRepository.updateClaim(claim);
                 claimCodeMessageObject.setT(updatedClaim);

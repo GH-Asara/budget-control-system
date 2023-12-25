@@ -8,7 +8,7 @@ public class AuthenticationFrame {
 
     private AuthenticationFrame() {
         frame = new JFrame();
-        frame.setTitle("Pemrograman 3 - Authentication");
+        frame.setTitle("BCS - Authentication");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(420, 360);

@@ -88,12 +88,14 @@ public class LoginPanel {
     }
 
     private void goToMainFrame() {
+        User user = GlobalVariable.currentUser;
         authenticationFrame = AuthenticationFrame.getInstance();
         mainFrame = MainFrame.getInstance();
         activityPanel = ActivityPanel.getInstance();
         budgetPanel = BudgetPanel.getInstance();
         claimPanel = ClaimPanel.getInstance();
         clear();
+        GlobalVariable.currentUser = user;
         activityPanel.setHello(GlobalVariable.currentUser.getName());
         budgetPanel.setHello(GlobalVariable.currentUser.getName());
         claimPanel.setHello(GlobalVariable.currentUser.getName());

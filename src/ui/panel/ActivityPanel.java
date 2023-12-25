@@ -34,6 +34,7 @@ public class ActivityPanel {
     private JTextField descriptionTextField;
     private JComboBox activityTypeComboBox;
     private Activity currentActivity = null;
+    private User user;
 
     private ActivityPanel() {
         panel = new JPanel();
@@ -176,6 +177,7 @@ public class ActivityPanel {
     public void setHello(String name) {
         helloLabel.setText(String.format("Hello, %s", name));
         GlobalVariable.currentUser = UserRepository.getInstance().getUserByName(name);
+        user = GlobalVariable.currentUser;
         if(GlobalVariable.currentUser.getRole().equals("Officer")){
             budgetButton.setVisible(false);
             activityButton.setVisible(false);
@@ -201,6 +203,7 @@ public class ActivityPanel {
         mainFrame = MainFrame.getInstance();
         budgetPanel = BudgetPanel.getInstance();
         budgetPanel.refresh();
+        budgetPanel.setHello(GlobalVariable.currentUser.getName());
         refresh();
         clear();
         mainFrame.changePanel(budgetPanel.getPanel());
@@ -209,8 +212,10 @@ public class ActivityPanel {
     private void goToClaimPanel() {
         mainFrame = MainFrame.getInstance();
         claimPanel = ClaimPanel.getInstance();
-        claimPanel.refresh();
-        claimPanel.clear();
+        GlobalVariable.currentUser = user;
+        claimPanel.setHello(GlobalVariable.currentUser.getName());
+        //claimPanel.refresh();
+        //claimPanel.clear();
         refresh();
         clear();
         mainFrame.changePanel(claimPanel.getPanel());

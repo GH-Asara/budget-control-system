@@ -1,6 +1,7 @@
 package ui.panel;
 
 import model.Budget;
+import model.User;
 import model.dto.CodeMessageObject;
 import net.miginfocom.swing.MigLayout;
 import repository.UserRepository;
@@ -31,6 +32,7 @@ public class BudgetPanel {
     private JLabel helloLabel, descriptionLabel, amountLabel;
     private JTextField descriptionTextField, amountTextField;
     private Budget currentBudget = null;
+    private User user;
 
     private BudgetPanel() {
         panel = new JPanel();
@@ -179,6 +181,7 @@ public class BudgetPanel {
     public void setHello(String name) {
         helloLabel.setText(String.format("Hello, %s", name));
         GlobalVariable.currentUser = UserRepository.getInstance().getUserByName(name);
+        user = GlobalVariable.currentUser;
         if(GlobalVariable.currentUser.getRole().equals("Officer")){
             budgetButton.setVisible(false);
             activityButton.setVisible(false);
@@ -204,6 +207,7 @@ public class BudgetPanel {
         mainFrame = MainFrame.getInstance();
         activityPanel = ActivityPanel.getInstance();
         activityPanel.refresh();
+        activityPanel.setHello(GlobalVariable.currentUser.getName());
         clear();
         refresh();
         mainFrame.changePanel(activityPanel.getPanel());
@@ -212,6 +216,8 @@ public class BudgetPanel {
     private void goToClaimPanel() {
         mainFrame = MainFrame.getInstance();
         claimPanel = ClaimPanel.getInstance();
+        GlobalVariable.currentUser = user;
+        claimPanel.setHello(GlobalVariable.currentUser.getName());
         claimPanel.refresh();
         claimPanel.clear();
         clear();

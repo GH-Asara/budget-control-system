@@ -1,6 +1,7 @@
 package ui.panel;
 
 import model.Claim;
+import model.User;
 import model.dto.CodeMessageObject;
 import net.miginfocom.swing.MigLayout;
 import repository.UserRepository;
@@ -43,6 +44,7 @@ public class ClaimPanel {
     private JComboBox<String> budgetComboBox;
     private JComboBox<String> activityComboBox;
     private Claim currentClaim = null;
+    private User user;
 
     private ClaimPanel() {
         panel = new JPanel();
@@ -246,6 +248,8 @@ public class ClaimPanel {
 
     public void setHello(String name) {
         helloLabel.setText(String.format("Hello, %s", name));
+        GlobalVariable.currentUser = UserRepository.getInstance().getUserByName(name);
+        user = GlobalVariable.currentUser;
         if(GlobalVariable.currentUser.getRole().equals("Officer")){
             budgetButton.setVisible(false);
             activityButton.setVisible(false);
@@ -272,6 +276,7 @@ public class ClaimPanel {
         activityPanel.refresh();
         refresh();
         clear();
+        budgetPanel.setHello(user.getName());
         mainFrame.changePanel(activityPanel.getPanel());
     }
 
@@ -281,6 +286,7 @@ public class ClaimPanel {
         budgetPanel.refresh();
         refresh();
         clear();
+        budgetPanel.setHello(user.getName());
         mainFrame.changePanel(budgetPanel.getPanel());
     }
 
@@ -307,7 +313,7 @@ public class ClaimPanel {
         activityComboBox.setSelectedIndex(GlobalVariable.activityDescriptions.indexOf(activityDescription));
         budgetComboBox.setSelectedIndex(GlobalVariable.budgetDescriptions.indexOf(budgetDescription));
         amountTextField.setText(amount.toString());
-        if(status.equals("Confirm To Approve")){
+        if(status.equals("Confirm To Approve") && user.getRole().equals("Departement Head")){
             approveButton.setVisible(true);
             rejectButton.setVisible(true);
         }
